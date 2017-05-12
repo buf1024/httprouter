@@ -41,7 +41,7 @@ const (
 )
 
 type node struct {
-	path      string
+	path      string // 路径
 	wildChild bool
 	nType     nodeType
 	maxParams uint8
@@ -231,14 +231,14 @@ func (n *node) insertChild(numParams uint8, path, fullPath string, handle Handle
 				end++
 			}
 		}
-
+		// 若存在具体的节点，再有通配符号，则冲突，不允许
 		// check if this Node existing children which would be
 		// unreachable if we insert the wildcard here
 		if len(n.children) > 0 {
 			panic("wildcard route '" + path[i:end] +
 				"' conflicts with existing children in path '" + fullPath + "'")
 		}
-
+		// 通配符，名字
 		// check if the wildcard has a name
 		if end-i < 2 {
 			panic("wildcards must be named with a non-empty name in path '" + fullPath + "'")
